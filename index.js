@@ -65,6 +65,10 @@ async function imgToWCAGStandart() {
 
 
 async function imgToWCAGStandartOld() {
+		// Vars
+		const inputIdAttributeKey = 'data-img-input-id-attribute';
+		const imgIdAttrubuteKey = 'data-img-id-attribute';
+
     /** Get random words from API
      * @param { number } count - how many words we will return
      * @return { string[] } - return list of random words
@@ -94,15 +98,15 @@ async function imgToWCAGStandartOld() {
 
       img.addEventListener("click", (e) => {
         const imgsInputsNodes = document.querySelectorAll(
-          "input[data-img-input-id-attribute]"
+          `input[${inputIdAttributeKey}]`
         );
 
         // If current input have opened input field - close him
         if (imgsInputsNodes.length === 1) {
           const firstFindedInputId = imgsInputsNodes[0].getAttribute(
-            "data-img-input-id-attribute"
+            inputIdAttributeKey
           );
-          const currentImgId = e.target.getAttribute("data-img-id-attribute");
+          const currentImgId = e.target.getAttribute(imgIdAttrubuteKey);
 
           if (firstFindedInputId === currentImgId) {
             imgsInputsNodes[0].remove();
@@ -124,10 +128,10 @@ async function imgToWCAGStandartOld() {
         input.addEventListener("input", (event) => {
           const inputValue = event.target.value;
           const inputId = event.target.getAttribute(
-            "data-img-input-id-attribute"
+            inputIdAttributeKey
           );
           const imgInput = document.querySelector(
-            `img[data-img-id-attribute="${inputId}"]`
+            `img[${imgIdAttrubuteKey}="${inputId}"]`
           );
 
           imgInput.setAttribute("alt", inputValue);
@@ -162,7 +166,7 @@ async function imgToWCAGStandartOld() {
         });
 
         mutation.removedNodes.forEach((node) => {
-          const nodeIndex = node.getAttribute("data-img-id-attribute");
+          const nodeIndex = node.getAttribute(imgIdAttrubuteKey);
           const inputNode = document.querySelector(
             `input[data-img-input-id-attribute="${nodeIndex}"]`
           );
