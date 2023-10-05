@@ -1,2 +1,1 @@
-# some_tt
-some_tt
+There will be two methods imgToWCAGStandart and imgToWCAGStandartOld. The name of the method that meets all the criteria of the requirements is imgToWCAGStandart, there is an old version of it, it also works, but the implementation of the ui part when we have an input appears next to the img, I did not like it, but I did not delete it, let it not embarrass you, I left it just to look at the idea and code (as a plus).
