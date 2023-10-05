@@ -1,69 +1,3 @@
-async function imgToWCAGStandart() {
-    /** Get random words from API
-     * @param { number } count - how many words we will return
-     * @return { string[] } - return list of random words
-     */
-    async function getRandomWords(count) {
-      try {
-        const randomWordsListResponse = await fetch(
-          `https://random-word-api.herokuapp.com/word?number=${count}`
-        );
-
-        return await randomWordsListResponse.json();
-      } catch (error) {
-        return new Array(count).fill(`${Math.random()}`);
-      }
-    }
-
-    /** Set up initial IMG node settings (attributes, listeners eth.)
-     * @param { HTMLElement } img - current img
-     * @param { string } word - random word from API
-     */
-    function setIMGSettings(img, word) {
-      img.setAttribute("alt", word);
-      img.style.border = "2px solid red";
-      img.style.cursor = "pointer";
-
-      img.addEventListener("click", (e) => {
-        const newAltText = prompt(
-          "Add new alt text:",
-          e.target.getAttribute("alt")
-        );
-
-        if (newAltText !== null) {
-          e.target.setAttribute("alt", newAltText);
-        }
-      });
-    }
-
-    // Initial imgs settings setup
-    const imgs = document.querySelectorAll("img");
-    const randomWordsList = await getRandomWords(imgs.length);
-
-    const imgNodesPromises = Array.from(imgs).map((img, index) =>
-      setIMGSettings(img, randomWordsList[index])
-    );
-
-    await Promise.all(imgNodesPromises);
-
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach(async (node, index) => {
-          if (node.tagName !== "IMG") {
-            return;
-          }
-
-          const randomWord = await getRandomWords(1);
-
-          setIMGSettings(node, randomWord[0]);
-        });
-      });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
-
-
 async function imgToWCAGStandartOld() {
 		// Vars
 		const inputIdAttributeKey = 'data-img-input-id-attribute';
@@ -173,6 +107,71 @@ async function imgToWCAGStandartOld() {
           if (inputNode) {
             inputNode.remove();
           }
+        });
+      });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  async function imgToWCAGStandart() {
+    /** Get random words from API
+     * @param { number } count - how many words we will return
+     * @return { string[] } - return list of random words
+     */
+    async function getRandomWords(count) {
+      try {
+        const randomWordsListResponse = await fetch(
+          `https://random-word-api.herokuapp.com/word?number=${count}`
+        );
+
+        return await randomWordsListResponse.json();
+      } catch (error) {
+        return new Array(count).fill(`${Math.random()}`);
+      }
+    }
+
+    /** Set up initial IMG node settings (attributes, listeners eth.)
+     * @param { HTMLElement } img - current img
+     * @param { string } word - random word from API
+     */
+    function setIMGSettings(img, word) {
+      img.setAttribute("alt", word);
+      img.style.border = "2px solid red";
+      img.style.cursor = "pointer";
+
+      img.addEventListener("click", (e) => {
+        const newAltText = prompt(
+          "Add new alt text:",
+          e.target.getAttribute("alt")
+        );
+
+        if (newAltText !== null) {
+          e.target.setAttribute("alt", newAltText);
+        }
+      });
+    }
+
+    // Initial imgs settings setup
+    const imgs = document.querySelectorAll("img");
+    const randomWordsList = await getRandomWords(imgs.length);
+
+    const imgNodesPromises = Array.from(imgs).map((img, index) =>
+      setIMGSettings(img, randomWordsList[index])
+    );
+
+    await Promise.all(imgNodesPromises);
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach(async (node, index) => {
+          if (node.tagName !== "IMG") {
+            return;
+          }
+
+          const randomWord = await getRandomWords(1);
+
+          setIMGSettings(node, randomWord[0]);
         });
       });
     });
